@@ -1,3 +1,4 @@
+package CPUSchedulersSimulator;
 
 
 public class SJF implements ICPUSystem {
