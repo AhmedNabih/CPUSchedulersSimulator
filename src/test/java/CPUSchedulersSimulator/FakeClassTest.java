@@ -10,6 +10,10 @@ public class FakeClassTest {
     @Test 
     public void testSomeLibraryMethod() {
         FakeClass classUnderTest = new FakeClass();
+        
+        // use assert function to compare results
+        // assertEquals("expected string from the test", "actual value");
+        
         assertTrue("someLibraryMethod should return 'true'", classUnderTest.someClassMethod());
     }
 }
