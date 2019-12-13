@@ -1,3 +1,5 @@
+package CPUSchedulersSimulator.SRTF;
+
 
 public class SRTF {
 	public static int flag=0;

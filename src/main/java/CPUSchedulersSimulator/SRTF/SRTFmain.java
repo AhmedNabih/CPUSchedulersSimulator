@@ -1,9 +1,11 @@
+package CPUSchedulersSimulator.SRTF;
+
 
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
-	public static  void Excution(SJF Procces[],int startTime,int c,int n,int TotalNumberOFProcess)
+public class SRTFmain {
+	public static  void Excution(SRTF Procces[],int startTime,int c,int n,int TotalNumberOFProcess)
 {
 		
 	}
