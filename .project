@@ -20,4 +20,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>jfree</name>
+			<type>2</type>
+			<location>D:/dev/jfreechart-1.0.1/jfreechart-1.0.1/source/org/jfree</location>
+		</link>
+	</linkedResources>
 </projectDescription>
