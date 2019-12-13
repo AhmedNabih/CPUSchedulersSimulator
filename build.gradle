@@ -27,5 +27,7 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     
-    implementation fileTree(dir: 'jfreechart-1.0.1/libs', include: ['*.jar'])
+    // https://mvnrepository.com/artifact/org.jfree/jfreechart
+	compile group: 'org.jfree', name: 'jfreechart', version: '1.5.0'
+    
 }
