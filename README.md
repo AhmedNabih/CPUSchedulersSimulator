@@ -11,6 +11,7 @@
 # Requirements To Run This Project
 * Java 8+
 * JFrame installed
+* JFreeChart 1.0.1-or-higher framework installed and library added to path, you can see additional resources for help
 
 # Requirements To Modify This Project
 * Must have "Requirements To Run This Project" first confirmed.
@@ -20,5 +21,6 @@
 
 # Additional Resources
 * How to write test for java programs: https://dzone.com/articles/7-tips-for-writing-better-unit-tests-in-java
+* How to download and installation: https://www.javatpoint.com/jfreechart-installation "Read Carefully"
 
 
