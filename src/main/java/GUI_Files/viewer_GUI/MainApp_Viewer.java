@@ -13,23 +13,22 @@ import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
-
-import GUI_Files.module_GUI.IProccess;
-import GUI_Files.module_GUI.ProccessData;
+import GUI_Files.module_GUI.IProcess;
+import GUI_Files.module_GUI.ProcessData;
 
 // MVC => Viewer, MainAPPViewer
 public class MainApp_Viewer extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public Map<Integer, Color> map = new HashMap<Integer, Color>();
-	private List<IProccess> processList;
+	private List<IProcess> processList;
 
-	public MainApp_Viewer(String title, List<IProccess> processList) {
+	public MainApp_Viewer(String title, List<IProcess> processList) {
 		super(title);
 		this.processList = processList;
 		initialize();
 	}
 
-	void addProccesColor(Integer column, Color color) {
+	void addProcessColor(Integer column, Color color) {
 		map.put(column, color);
 	}
 
@@ -37,22 +36,22 @@ public class MainApp_Viewer extends JFrame {
 		TaskSeries seriesList = new TaskSeries("");
 		
 		int columns = 0; 
-		for(IProccess prc : processList) {
-			Task BigTask = new Task(prc.GetProccessName(), prc.GetMinProccessTime(), prc.GetMaxProccessTime());	
-			List<ProccessData> subProccessList = prc.GetProccessList();
+		for(IProcess prc : processList) {
+			Task BigTask = new Task(prc.GetProcessName(), prc.GetMinProcessTime(), prc.GetMaxProcessTime());	
+			List<ProcessData> subProcessList = prc.GetProcessList();
 			
-			int subTasksSZ = subProccessList.size();
+			int subTasksSZ = subProcessList.size();
 			Task[] subTasks = new Task[subTasksSZ];
 			
 			Integer key = 0;
-			for(ProccessData prcData : subProccessList) {
-				subTasks[key] = new Task("Proccess" + key.toString(), prcData.GetStart(), prcData.GetEnd());
+			for(ProcessData prcData : subProcessList) {
+				subTasks[key] = new Task("Process" + key.toString(), prcData.GetStart(), prcData.GetEnd());
 				key++;
 			}
 			for(Task task : subTasks) {
 				BigTask.addSubtask(task);
 			}
-			addProccesColor(columns, prc.GetProccessColor());
+			addProcessColor(columns, prc.GetProcessColor());
 			columns++;
 			
 			seriesList.add(BigTask);

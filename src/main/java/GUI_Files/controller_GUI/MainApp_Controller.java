@@ -4,12 +4,12 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.WindowConstants;
-import GUI_Files.module_GUI.IProccess;
+import GUI_Files.module_GUI.IProcess;
 import GUI_Files.viewer_GUI.MainApp_Viewer;
 
 public class MainApp_Controller {
 
-	public static void RunMainApp(String title, List<IProccess> processList) {
+	public static void RunMainApp(String title, List<IProcess> processList) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
