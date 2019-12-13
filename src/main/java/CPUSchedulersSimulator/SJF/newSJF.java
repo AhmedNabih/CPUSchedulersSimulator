@@ -1,5 +1,8 @@
+package CPUSchedulersSimulator.SJF;
 
-public class SJF {
+
+
+public class newSJF {
 	int pid;
 	int arrivalTime ;
 	int burstTime ; 
@@ -11,7 +14,7 @@ public class SJF {
 	static int avgwt=0;
 	static int avgta=0;
 	int f;  // f means it is flag it checks process is completed or not	
-	public static void excute(SJF Procces[],int n)
+	public static void excute(newSJF Procces[],int n)
 	{
 		int c=n, min=Integer.MAX_VALUE;
 		for (int i=0; i<n; i++)
@@ -41,7 +44,7 @@ public class SJF {
 			
 		}		
 	}
-	public static void Print(SJF Procces[],int n)
+	public static void Print(newSJF Procces[],int n)
 	{
 		for(int i=0;i<n;i++)
 		{

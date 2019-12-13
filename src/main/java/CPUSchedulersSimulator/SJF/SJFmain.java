@@ -1,9 +1,11 @@
+package CPUSchedulersSimulator.SJF;
+
 
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
-	public static  void Excution(SJF Procces[],int startTime,int c,int n,int TotalNumberOFProcess)
+public class SJFmain {
+	public static  void Excution(newSJF Procces[],int startTime,int c,int n,int TotalNumberOFProcess)
 {
 		
 	}
@@ -11,10 +13,10 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		 System.out.println ("enter no of process:");
 		int n = sc.nextInt();
-		SJF [] Procces=new SJF[n];
+		newSJF [] Procces=new newSJF[n];
 		for(int i = 0; i < Procces.length ; i++)
 		{
-			Procces[i] = new SJF();
+			Procces[i] = new newSJF();
 		}
 
 		float avgwt=0, avgta=0;
@@ -30,13 +32,13 @@ public class Main {
 		
 		while(true)
 		{
-			if (SJF.TotalNumberOFProcess == n) // total no of process = completed process loop will be terminated
+			if (newSJF.TotalNumberOFProcess == n) // total no of process = completed process loop will be terminated
 				break;
-			SJF.excute(Procces,n);
+			newSJF.excute(Procces,n);
 			}
 		
 		System.out.println("\npid  arrival brust  complete turn waiting");
-		SJF.Print(Procces, n); 
+		newSJF.Print(Procces, n); 
 	     
 		sc.close();
 	
