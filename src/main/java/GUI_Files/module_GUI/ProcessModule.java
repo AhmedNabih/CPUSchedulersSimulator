@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import CPUSchedulersSimulator.AGScheduling.AGProcessData;
+import CPUSchedulersSimulator.PriorityScheduling.PriorityData;
 import CPUSchedulersSimulator.SJF.newSJF;
 import CPUSchedulersSimulator.SRTF.SRTF;
 
@@ -15,6 +16,14 @@ public class ProcessModule implements IProcess {
 	private Time end;
 	private List<ProcessData> processList;
 	private Color color;
+	
+	public ProcessModule(PriorityData data) {
+		processName = data.name;
+		start = data.saveDuration.GetMinProcessTime();
+		end = data.saveDuration.GetMaxProcessTime();
+		processList = data.saveDuration.GetProcessList();
+		color = data.color;
+	}
 	
 	public ProcessModule(SRTF data) {
 		processName = data.name;
