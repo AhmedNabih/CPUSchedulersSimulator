@@ -31,15 +31,13 @@ public class SRTF {
 			 */
 			if (Procces[i].arrivalTime <= startTime)// Condition to check if Process has arrived
 			{
-				if (Procces[i].remainingTime <= min && Procces[i].remainingTime != 0) {
+				if (Procces[i].remainingTime < min && Procces[i].remainingTime > 0) {
 					flag++;
 					if (flag == 1)
 						miniArrivalTime = Procces[i].arrivalTime;
 
 					min = Procces[i].remainingTime;
 					c = i;
-					if (Procces[i].arrivalTime < miniArrivalTime)
-						break;
 				}
 			}
 
@@ -72,7 +70,7 @@ public class SRTF {
 			Time end = new Time(startTime);
 			Procces[c].saveDuration.AddDuration(start, end);
 			if ((startTime - 1 - miniArrivalTime) != 0) {
-				if ((c + 1) != time_chart[startTime - 2 - miniArrivalTime])
+				if ((c + 1) != time_chart[startTime - 1 - miniArrivalTime])
 				// If the CPU has been assigned to a different Process we need to print the
 				// current value of time and the name of
 				// the new Process
@@ -82,11 +80,7 @@ public class SRTF {
 			} else// If the current time is 0 i.e the printing has just started we need to print
 					// the name of the First selected Process
 				System.out.print((startTime - 1) + "--P" + (c + 1));
-			if ((startTime - 1 - miniArrivalTime) == total_time - 1)// All the process names have been printed now we
-																	// have to print the time at which execution ends
-			{
-				System.out.print("--" + (startTime));
-			}
+			
 
 			for (int i = 0; i < n; i++) {
 				if (Procces[i].remainingTime <= 0)
