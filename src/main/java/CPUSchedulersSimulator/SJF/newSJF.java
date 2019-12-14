@@ -1,19 +1,24 @@
 package CPUSchedulersSimulator.SJF;
 
+import java.awt.Color;
+import java.sql.Time;
 
+import GUI_Files.module_GUI.IProcess;
 
 public class newSJF {
-	int pid;
-	int arrivalTime ;
-	int burstTime ; 
-	int completeTime ; 
-	int aroundTime ; 
-	int waitingTime ;
-	static int startTime=0;
-	static int TotalNumberOFProcess=0;
-	static int avgwt=0;
-	static int avgta=0;
-	int f;  // f means it is flag it checks process is completed or not	
+	public String pid;
+	public Color color;
+	public int arrivalTime ;
+	public int burstTime ; 
+	public int completeTime ; 
+	public int aroundTime ; 
+	public int waitingTime ;
+	public IProcess saveDuration;
+	public static int startTime=0;
+	public static int TotalNumberOFProcess=0;
+	public static int avgwt=0;
+	public static int avgta=0;
+	public int f;  // f means it is flag it checks process is completed or not	
 	public static void excute(newSJF Procces[],int n)
 	{
 		int c=n, min=Integer.MAX_VALUE;
@@ -36,10 +41,13 @@ public class newSJF {
 		else
 		{
 			Procces[c].completeTime=startTime+Procces[c].burstTime;
-			startTime+=Procces[c].burstTime;
 			Procces[c].aroundTime=Procces[c].completeTime-Procces[c].arrivalTime;
 			Procces[c].waitingTime=Procces[c].aroundTime-Procces[c].burstTime;
 			Procces[c].f=1;
+			Time start = new Time(startTime);
+			Time end = new Time(Procces[c].completeTime);
+			Procces[c].saveDuration.AddDuration(start, end);
+			startTime += Procces[c].burstTime;
 			TotalNumberOFProcess++;
 			
 		}		

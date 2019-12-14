@@ -14,8 +14,19 @@ import GUI_Files.controller_GUI.MainApp_Controller;
 import GUI_Files.module_GUI.ProcessModule;
 
 public class AGMain {
+	public static double GetMean(List<AGProcessData> list, String key) {
+		double sum = 0.0, count = list.size();
+		for (AGProcessData data : list) {
+			if(key.equals("WT"))
+				sum += data.waitingTime;
+			else if (key.equals("TAT"))
+				sum += data.burstTime + data.waitingTime;
+		}
+		return (double) (sum / count);
+	}
+	
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("AGinput.txt"));
 
 		Comparator<AGInputData> AGInputDataComparator = (o1, o2) -> {
 			if (o1.arrivalTime < o2.arrivalTime)
@@ -83,7 +94,8 @@ public class AGMain {
 			ProcessModule temp = new ProcessModule(tempData);
 			doneData.add(temp);
 		}
-		
+		System.out.println("Avg Waiting Time: " + GetMean(processesData, "WT"));
+		System.out.println("Avg Turnaround Time: " + GetMean(processesData, "TAT"));
 		
 		MainApp_Controller.RunMainApp("CPU", doneData);
 
