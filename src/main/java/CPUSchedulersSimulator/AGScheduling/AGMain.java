@@ -66,11 +66,12 @@ public class AGMain {
 			
 			AGInputQueue.add(inputData[i]);
 		}
+		double CS = Double.parseDouble(br.readLine());
 		br.close();
 
 		
 		
-		AGAlgorithm algo = new AGAlgorithm(inputData, 0.0);
+		AGAlgorithm algo = new AGAlgorithm(inputData, CS);
 		List<AGProcessData> processesData = algo.Run();
 		
 		Collections.sort(processesData,new Comparator<AGProcessData>() {

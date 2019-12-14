@@ -19,6 +19,7 @@ public class AGAlgorithm {
 	private double CurrentTime;
 	private double contextSwitchingHeadacheTime;
 	private boolean priority;
+	private boolean contextSwitch;
 
 	private double GetMean(List<AGProcessData> list) {
 		double sum = 0.0, count = list.size();
@@ -34,7 +35,8 @@ public class AGAlgorithm {
 		this.InDeadList = new ArrayList<AGProcessData>();
 		this.contextSwitchingHeadacheTime = contextSwitchingHeadacheTime;
 		this.priority = false;
-
+		this.contextSwitch = false;
+		
 		Comparator<AGProcessData> AGInputDataComparator = (o1, o2) -> {
 			if (o1.arrivalTime < o2.arrivalTime)
 				return -1;
@@ -75,8 +77,13 @@ public class AGAlgorithm {
 
 		while (doneProcesses != noOfProcesses) {
 
+			
 			RefreshListFirst();
 
+			if(this.contextSwitch) {
+				this.CurrentTime += contextSwitchingHeadacheTime;
+				this.contextSwitch = false;
+			}
 			AGProcessData pdata;
 			if(this.priority) {
 				pdata = AGFactorQueue.poll();
@@ -141,7 +148,7 @@ public class AGAlgorithm {
 		return true;
 	}
 
-	private boolean ExcuteProcess(AGProcessData process) {
+	private boolean nonExcuteProcess(AGProcessData process) {
 		if (Math.ceil(process.quantum / 2.0) >= process.burstTime - process.doneWork) {
 			CurrentTime += process.burstTime - process.doneWork;
 			process.doneWork = process.burstTime;
@@ -157,7 +164,21 @@ public class AGAlgorithm {
 			return false;
 		}
 	}
-	private boolean nonExcuteProcess(AGProcessData process) {
+	
+	private boolean nonPreemptive(AGProcessData process) {
+		Time start = new Time((long) CurrentTime);
+		if (nonExcuteProcess(process)) {
+			Time end = new Time((long) CurrentTime);
+			process.saveDuations.AddDuration(start, end);
+			CurrentTime += this.contextSwitchingHeadacheTime;
+			return true;
+		} else {
+			CurrentTime += Math.ceil(process.quantum / 2.0);
+			return false;
+		}
+	}
+	
+	private boolean ExcuteProcess(AGProcessData process) {
 		if (process.quantum - Math.ceil(process.quantum / 2.0) >= process.burstTime - process.doneWork) {
 			CurrentTime += process.burstTime - process.doneWork;
 			process.doneWork = process.burstTime;
@@ -174,23 +195,11 @@ public class AGAlgorithm {
 		}
 	}
 
-	private boolean nonPreemptive(AGProcessData process) {
-		Time start = new Time((long) CurrentTime);
-		if (ExcuteProcess(process)) {
-			Time end = new Time((long) CurrentTime);
-			process.saveDuations.AddDuration(start, end);
-			return true;
-		} else {
-			CurrentTime += Math.ceil(process.quantum / 2.0);
-			return false;
-		}
-	}
-
 	private boolean preemptive(AGProcessData process) {
 		if (!AGQueueInput.isEmpty() && AGQueueInput.peek().arrivalTime >= CurrentTime + Math.ceil(process.quantum / 2.0)) {
 			if (GetHigherPriority(process)) {
 				Time start = new Time((long) (CurrentTime - Math.ceil(process.quantum / 2.0)));
-				boolean done = nonExcuteProcess(process);
+				boolean done = ExcuteProcess(process);
 				if (!done) {
 					CurrentTime += process.quantum - Math.ceil(process.quantum / 2.0);
 					process.quantum += Math.ceil((GetMean(InReadyList) * 0.1));
@@ -198,25 +207,26 @@ public class AGAlgorithm {
 					process.lastWait = CurrentTime;
 					Time end = new Time((long) CurrentTime);
 					process.saveDuations.AddDuration(start, end);
+					this.contextSwitch = true;
 					AGQueue.add(process);
 					AGFactorQueue.add(process);
-					CurrentTime += contextSwitchingHeadacheTime;
 					return false;
 				} else {
 					Time end = new Time((long) CurrentTime);
 					process.saveDuations.AddDuration(start, end);
-					CurrentTime += contextSwitchingHeadacheTime;
+					this.contextSwitch = true;
 					return true;
 				}
 
-			} else {
+			}
+			else {
 				Time start = new Time((long) (CurrentTime - Math.ceil(process.quantum / 2.0)));
 				Time end = new Time((long) CurrentTime);
 				process.saveDuations.AddDuration(start, end);
 				process.quantum += process.quantum - Math.ceil(process.quantum / 2.0);
 				process.quantumHistory.add(process.quantum);
 				process.lastWait = CurrentTime;
-				CurrentTime += contextSwitchingHeadacheTime;
+				this.contextSwitch = true;
 				AGQueue.add(process);
 				AGFactorQueue.add(process);
 				this.priority = true;
@@ -245,10 +255,11 @@ public class AGAlgorithm {
 					process.quantum = 0;
 					process.quantumHistory.add(process.quantum);
 					end = new Time((long) CurrentTime);
+					process.saveDuations.AddDuration(start, end);
 					InReadyList.remove(process);
 					InDeadList.add(process);
 					AGFactorQueue.remove(process);
-					CurrentTime += contextSwitchingHeadacheTime;
+					this.contextSwitch = true;
 					return true;
 				}
 
@@ -270,7 +281,7 @@ public class AGAlgorithm {
 						process.saveDuations.AddDuration(start, end);
 						AGQueue.add(process);
 						AGFactorQueue.add(process);
-						CurrentTime += contextSwitchingHeadacheTime;
+						this.contextSwitch = true;
 						this.priority = true;
 						return false;
 					}
@@ -286,7 +297,7 @@ public class AGAlgorithm {
 						InReadyList.remove(process);
 						InDeadList.add(process);
 						AGFactorQueue.remove(process);
-						CurrentTime += contextSwitchingHeadacheTime;
+						this.contextSwitch = true;
 						return true;
 					}
 					else {
@@ -297,7 +308,7 @@ public class AGAlgorithm {
 						process.saveDuations.AddDuration(start, end);
 						AGQueue.add(process);
 						AGFactorQueue.add(process);
-						CurrentTime += contextSwitchingHeadacheTime;
+						this.contextSwitch = true;
 						this.priority = true;
 						return false;
 					}
@@ -312,7 +323,7 @@ public class AGAlgorithm {
 					process.saveDuations.AddDuration(start, end);
 					AGQueue.add(process);
 					AGFactorQueue.add(process);
-					CurrentTime += contextSwitchingHeadacheTime;
+					this.contextSwitch = true;
 					return false;
 				}
 			}
@@ -323,7 +334,7 @@ public class AGAlgorithm {
 				process.quantum += process.quantum - Math.ceil(process.quantum / 2.0);
 				process.quantumHistory.add(process.quantum);
 				process.lastWait = CurrentTime;
-				CurrentTime += contextSwitchingHeadacheTime;
+				this.contextSwitch = true;
 				AGQueue.add(process);
 				AGFactorQueue.add(process);
 				return false;
