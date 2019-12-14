@@ -158,7 +158,8 @@ public class AGAlgorithm {
 			InDeadList.add(process);
 			AGFactorQueue.remove(process);
 			return true;
-		} else {
+		}
+		else {
 			double tp = Math.ceil(process.quantum / 2.0);
 			process.doneWork += tp;
 			return false;
@@ -170,7 +171,7 @@ public class AGAlgorithm {
 		if (nonExcuteProcess(process)) {
 			Time end = new Time((long) CurrentTime);
 			process.saveDuations.AddDuration(start, end);
-			CurrentTime += this.contextSwitchingHeadacheTime;
+			this.contextSwitch = true;
 			return true;
 		} else {
 			CurrentTime += Math.ceil(process.quantum / 2.0);
