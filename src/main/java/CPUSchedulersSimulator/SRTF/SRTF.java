@@ -80,7 +80,11 @@ public class SRTF {
 			} else// If the current time is 0 i.e the printing has just started we need to print
 					// the name of the First selected Process
 				System.out.print((startTime - 1) + "--P" + (c + 1));
-			
+			if ((startTime - 1 - miniArrivalTime) == total_time - 1)// All the process names have been printed now we
+				// have to print the time at which execution ends
+			{
+				System.out.print("--" + (startTime));
+	}
 
 			for (int i = 0; i < n; i++) {
 				if (Procces[i].remainingTime <= 0)
