@@ -15,14 +15,15 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import GUI_Files.module_GUI.IProcess;
 import GUI_Files.module_GUI.ProcessData;
+import GUI_Files.module_GUI.ProcessModule;
 
 // MVC => Viewer, MainAPPViewer
 public class MainApp_Viewer extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public Map<Integer, Color> map = new HashMap<Integer, Color>();
-	private List<IProcess> processList;
+	private List<ProcessModule> processList;
 
-	public MainApp_Viewer(String title, List<IProcess> processList) {
+	public MainApp_Viewer(String title, List<ProcessModule> processList) {
 		super(title);
 		this.processList = processList;
 		initialize();

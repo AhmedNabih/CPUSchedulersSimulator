@@ -5,6 +5,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import CPUSchedulersSimulator.AGScheduling.AGProcessData;
+
 public class ProcessModule implements IProcess {
 	private String processName;
 	private Time start;
@@ -18,6 +20,14 @@ public class ProcessModule implements IProcess {
 		this.end = new Time(0);
 		this.processList = new ArrayList<ProcessData>();
 		this.color = color;
+	}
+	
+	public ProcessModule(AGProcessData data) {
+		this.processName = data.processName;
+		this.start = data.saveDuations.GetMinProcessTime();
+		this.end = data.saveDuations.GetMaxProcessTime();
+		this.processList = data.saveDuations.GetProcessList();
+		this.color = data.saveDuations.GetProcessColor();
 	}
 
 	@Override
